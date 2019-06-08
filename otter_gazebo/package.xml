@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>otter_gazebo</name>
+  <version>0.0.0</version>
+  <description>The otter gazebo package</description>
+
+  <maintainer email="jhlenes@outlook.com">Jan Henrik Lenes</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>gazebo_plugins</depend>
+  <depend>hector_gazebo_plugins</depend>
+  <depend>robot_localization</depend>
+  <depend>usv_gazebo_plugins</depend>
+  <depend>velodyne_gazebo_plugins</depend>
+  <depend>otter_description</depend>
+  <depend>xacro</depend>
+  <depend>message_filters</depend>
+  <depend>roscpp</depend>
+  <depend>teleop_twist_keyboard</depend>
+</package>

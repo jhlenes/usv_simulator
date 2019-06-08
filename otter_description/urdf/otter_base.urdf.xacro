@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<robot name="otter" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="otter_base">
+
+    <!-- Included URDF/XACRO Files -->
+    <xacro:include filename="$(find otter_description)/urdf/materials.urdf.xacro" />
+    <xacro:include filename="$(find otter_description)/urdf/parts.mininertia.urdf.xacro" />
+    <xacro:include filename="$(find otter_description)/urdf/propeller.xacro" />
+       
+    <!-- PROPERTY LIST -->
+    <!--All units in m-kg-s-radians unit system -->
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+    <xacro:property name="HH"   value="0.10" />
+
+    <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin, navigation stack depends on this frame -->
+    <link name="base_footprint">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 ${HH}" />
+        <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </visual>
+    </link>
+    <gazebo reference="base_footprint">
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <!--Actual body/chassis of the robot-->
+    <link name="base_link">
+      <inertial>
+        <mass value="29" />
+        <origin xyz="0 0 0.29" /> <!-- Center of mass -->
+        <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="10" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0.6" rpy="0 0 -${M_PI/2}" />
+        <geometry>
+          <mesh filename="package://otter_description/meshes/otter/otter.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.3 0 ${HH}" rpy="-${M_PI/2} 0 ${M_PI/2}" />
+        <geometry>
+          <box size="1.0 0.3 1.7"/> 
+        </geometry>
+      </collision>     
+    </link>
+    <joint name="base_footprint_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="base_footprint" />
+    </joint>
+    <gazebo reference="base_link">
+      <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+    <!-- Left propeller -->
+    <xacro:propeller prefix="left" position="-0.89 0.395 -0.07" />
+    <gazebo reference="left_propeller_link">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!-- Right propeller -->
+    <xacro:propeller prefix="right" position="-0.88 -0.395 -0.07" />
+    <gazebo reference="right_propeller_link">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

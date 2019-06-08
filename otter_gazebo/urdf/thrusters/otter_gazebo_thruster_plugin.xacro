@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="usv_thrust_gazebo" params="name">
+    <gazebo>
+      <plugin name="otter_gazebo_thrust" filename="libusv_gazebo_thrust_plugin.so">
+        <cmdTimeout>1.0</cmdTimeout>
+        <xacro:include filename="$(find otter_gazebo)/urdf/thrusters/otter_gazebo_thruster_config.xacro" />
+        <xacro:otter_gazebo_thruster_config name="left" />
+        <xacro:otter_gazebo_thruster_config name="right" />
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

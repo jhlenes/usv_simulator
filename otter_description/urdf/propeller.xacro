@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<robot name="otter_propeller" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro for inserting a propeller. -->
+  <xacro:macro name="propeller" params="prefix position:='0 0 0' orientation:='0 0 0'">
+
+    <link name="${prefix}_propeller_link">
+      <!-- Uncomment to see position of propeller
+      <visual>
+        <geometry>
+          <mesh filename="package://otter_description/meshes/propeller.dae" scale="0.45 0.45 0.45" />
+        </geometry>
+      </visual>-->
+      <collision name="${prefix}_propeller_collision">
+        <origin xyz="-0.08 0 0" rpy="0 1.57 0" />
+        <geometry>
+          <cylinder length="0.18" radius="0.24" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5"/>
+        <inertia ixx="0.008545" ixy="0.0" ixz="0.0" iyy="0.008545" iyz="0.0" izz="0.0144"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_engine_propeller_joint" type="continuous">
+      <axis rpy="0 0 0" xyz="1 0 0"/>
+      <parent link="base_link"/>
+      <child link="${prefix}_propeller_link"/>
+      <origin xyz="${position}" rpy="${orientation}"/>
+      <limit effort="100" velocity="100" />
+      <dynamics friction="0.05" damping="0.05" />
+    </joint>
+  </xacro:macro>
+</robot>

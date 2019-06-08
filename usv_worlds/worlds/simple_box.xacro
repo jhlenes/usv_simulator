@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!-- Macro to insert simple obstacles into the world -->
+<world xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="simple_box" params="name x:=0 y:=0 z:=1 roll:=0 pitch:=0 yaw:=0 X:=0.2 Y:=0.2 Z:=2 color:=DarkGray">
+    <model name='${name}'>
+      <pose frame=''>${x} ${y} ${z} ${roll} ${pitch} ${yaw}</pose>
+      <static>true</static>
+      <link name='link'>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>${X} ${Y} ${Z}</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/${color}</name>
+            </script>
+          </material>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>${X} ${Y} ${Z}</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+  </xacro:macro>
+</world>

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!-- World containing nice visuals and simple obstacles -->
+<sdf version="1.6" xmlns:xacro="http://ros.org/wiki/xacro">
+  <world name="usv_fast_world">
+    <physics type="ode">
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>50</iters>
+          <precon_iters>0</precon_iters>
+          <sor>1.300000</sor>
+        </solver>
+        <constraints>
+          <cfm>0.000000</cfm>
+          <erp>0.200000</erp>
+          <contact_max_correcting_vel>100.000000</contact_max_correcting_vel>
+          <contact_surface_layer>0.001000</contact_surface_layer>
+        </constraints>
+      </ode>
+      <real_time_update_rate>0.000000</real_time_update_rate> <!-- SPEED HERE: 0=as fast as possible, 1000=real-time, 2000=2*real-time, etc... NOTE: catkin_make to apply changes -->
+      <max_step_size>0.001000</max_step_size>
+    </physics>
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>0</speed>
+        </clouds>
+      </sky>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <!-- Estimated latitude/longitude of Trondheim harbor from satellite imagery -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>63.439340</latitude_deg>
+      <longitude_deg>10.399998</longitude_deg>
+      <elevation>0</elevation>
+      <!-- For legacy gazebo reasons, need to rotate -->
+      <heading_deg>180</heading_deg>
+    </spherical_coordinates>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>-9.35 -10.43 2.92 0 0.27 0.40</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <pose> 0 0 0 0 0 0 </pose>
+      <uri>model://ocean</uri>
+    </include>
+
+    <xacro:include filename="$(find usv_worlds)/worlds/simple_obstacles.xacro" />
+    <xacro:simple_obstacles />
+    
+  </world>
+</sdf>

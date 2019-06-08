@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Gazebo world to load -->
+  <arg name="world" default="$(find usv_worlds)/worlds/usv_fast.world" />
+  <!-- If true, run gazebo GUI -->
+  <arg name="gui" default="true" />
+  <!-- If true, run gazebo in verbose mode -->
+  <arg name="verbose" default="false"/>
+
+  <!-- Initial USV location and attitude-->
+  <arg name="x" default="0.0" />
+  <arg name="y" default="-5.0" />
+  <arg name="z" default="0.0" />
+  <arg name="R" default="0" />
+  <arg name="P" default="0" />
+  <arg name="Y" default="0" />
+
+  <!-- Do you want to enable sensors? -->
+  <arg name="top_camera_enabled"   default="false" />
+  <arg name="gps_enabled"          default="true" />
+  <arg name="imu_enabled"          default="true" />
+  <arg name="lidar_enabled"        default="true" />
+  <arg name="ground_truth_enabled" default="true" />
+
+  <!-- Multiple USVs can be spawned with different namespaces -->
+  <arg name="namespace"     default=""     />
+  <arg name="start_gazebo"  default="true" />
+
+  <!-- Start Gazebo with the world file, if argument is true -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg start_gazebo)">
+    <arg name="world_name"   value="$(arg world)"/>
+    <arg name="verbose"      value="$(arg verbose)"/>
+    <arg name="paused"       value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui"          value="$(arg gui)" />
+  </include>
+
+  <group ns="/$(arg namespace)">
+
+    <!-- Load robot model -->
+    <arg name="urdf" default="$(find otter_gazebo)/urdf/otter_gazebo.urdf.xacro"/>
+    <param name="robot_description"
+          command="$(find xacro)/xacro $(arg urdf)
+          imu_enabled:=$(arg imu_enabled)
+          gps_enabled:=$(arg gps_enabled)
+          lidar_enabled:=$(arg lidar_enabled)
+          top_camera_enabled:=$(arg top_camera_enabled)
+          ground_truth_enabled:=$(arg ground_truth_enabled)" />
+
+    <group if="$(eval namespace == '')">
+      <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+      <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+            args="-x $(arg x) -y $(arg y) -z $(arg z)
+                  -R $(arg R) -P $(arg P) -Y $(arg Y)
+                  -urdf -param /robot_description -model otter"/>
+    </group>
+
+    <group unless="$(eval namespace == '')">
+      <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+      <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+            args="-x $(arg x) -y $(arg y) -z $(arg z)
+                  -R $(arg R) -P $(arg P) -Y $(arg Y)
+                  -urdf -param /$(arg namespace)/robot_description -model $(arg namespace)"/>
+    </group>
+
+    <!-- Publishes static transforms (gps, imu, cameras, etc) to /tf -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="rob_st_pub" />
+
+  </group>
+
+</launch>
