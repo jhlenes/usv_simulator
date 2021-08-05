@@ -13,7 +13,7 @@ catkin_package(
 xacro_add_files(
   worlds/usv.world.xacro
   worlds/usv_fast.world.xacro
-  INORDER INSTALL DESTINATION worlds
+  INSTALL DESTINATION worlds
 )
 
 # Install all the config files

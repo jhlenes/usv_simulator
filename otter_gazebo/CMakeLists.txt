@@ -17,7 +17,7 @@ catkin_package(
 # Generate urdf files from xacro and install
 xacro_add_files(
   urdf/otter_gazebo.urdf.xacro
-  INORDER INSTALL DESTINATION urdf
+  INSTALL DESTINATION urdf
 )
 
 # Install xacro files / macros
