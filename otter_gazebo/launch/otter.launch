@@ -21,6 +21,7 @@
   <arg name="gps_enabled"          default="true" />
   <arg name="imu_enabled"          default="true" />
   <arg name="lidar_enabled"        default="true" />
+  <arg name="velodyne_enabled"     default="false" />
   <arg name="ground_truth_enabled" default="true" />
 
   <!-- Multiple USVs can be spawned with different namespaces -->
@@ -45,6 +46,7 @@
           imu_enabled:=$(arg imu_enabled)
           gps_enabled:=$(arg gps_enabled)
           lidar_enabled:=$(arg lidar_enabled)
+          velodyne_enabled:=$(arg velodyne_enabled)
           top_camera_enabled:=$(arg top_camera_enabled)
           ground_truth_enabled:=$(arg ground_truth_enabled)" />
 

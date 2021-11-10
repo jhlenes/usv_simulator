@@ -13,6 +13,7 @@
   <depend>robot_localization</depend>
   <depend>usv_gazebo_plugins</depend>
   <depend>velodyne_gazebo_plugins</depend>
+  <depend>velodyne_description</depend>
   <depend>otter_description</depend>
   <depend>xacro</depend>
   <depend>message_filters</depend>
