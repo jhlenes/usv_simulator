@@ -65,7 +65,7 @@
 
   <!-- Add 3D LIDAR -->
   <xacro:if value="$(arg velodyne_enabled)">
-    <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" organize_cloud="false" hz="5" samples="440" gpu="false">
+    <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" organize_cloud="false" hz="5" samples="1024" gpu="false">
       <origin xyz="-0.2 0.0 0.6" rpy="0 0 0" />
     </xacro:VLP-16>
   </xacro:if>
