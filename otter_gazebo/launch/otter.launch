@@ -23,6 +23,7 @@
   <arg name="lidar_enabled"        default="true" />
   <arg name="velodyne_enabled"     default="false" />
   <arg name="ground_truth_enabled" default="true" />
+  <arg name="direct_control_plugin" default="false" />
 
   <!-- Multiple USVs can be spawned with different namespaces -->
   <arg name="namespace"     default=""     />
@@ -48,7 +49,8 @@
           lidar_enabled:=$(arg lidar_enabled)
           velodyne_enabled:=$(arg velodyne_enabled)
           top_camera_enabled:=$(arg top_camera_enabled)
-          ground_truth_enabled:=$(arg ground_truth_enabled)" />
+          ground_truth_enabled:=$(arg ground_truth_enabled)
+          direct_control_plugin:=$(arg direct_control_plugin)" />
 
     <group if="$(eval namespace == '')">
       <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="usv_direct_control_gazebo" params="name">
+    <gazebo>
+      <plugin name="usv_direct_control_${name}" filename="libusv_gazebo_direct_control_plugin.so">
+        <!-- No parameters -->
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

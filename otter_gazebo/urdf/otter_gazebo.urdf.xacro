@@ -10,6 +10,7 @@
   <xacro:arg name="velodyne_enabled"      default="false" />
   <xacro:arg name="top_camera_enabled"    default="false" />
   <xacro:arg name="ground_truth_enabled"  default="false" /> 
+  <xacro:arg name="direct_control_plugin" default="false" />
 
 
   <!-- Define macros -->
@@ -25,6 +26,9 @@
 
   <!-- Defines the "usv_thrust_gazebo" macro -->
   <xacro:include filename="$(find otter_gazebo)/urdf/thrusters/otter_gazebo_thruster_plugin.xacro" />
+
+  <!-- Defines the "usv_direct_control_gazebo" macro -->
+  <xacro:include filename="$(find otter_gazebo)/urdf/otter_gazebo_direct_control_plugin.xacro" />
 
   <!-- Define macros for sensors -->
   <xacro:include filename="$(find otter_gazebo)/urdf/sensors/otter_gps.xacro" />
@@ -47,6 +51,11 @@
 
   <!-- USV thrust plugin -->
   <xacro:usv_thrust_gazebo name="otter"/>
+
+  <!-- USV direct control plugin -->
+  <xacro:if value="$(arg direct_control_plugin)">
+    <xacro:usv_direct_control_gazebo name="otter"/>
+  </xacro:if>
 
   <!-- Add a front camera -->
   <xacro:if value="$(arg top_camera_enabled)">
